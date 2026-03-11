@@ -14,61 +14,254 @@ st.set_page_config(
     layout="wide"
 )
 
+import base64
+
+# Embed the Kensite logo as base64
+_LOGO_PATH = os.path.join(os.path.dirname(__file__), "kensite_logo.png")
+def _get_logo_b64():
+    if os.path.exists(_LOGO_PATH):
+        with open(_LOGO_PATH, "rb") as f:
+            return base64.b64encode(f.read()).decode()
+    return ""
+
+_LOGO_B64 = _get_logo_b64()
+
 st.markdown("""
 <style>
+/* ── Google Font: Figtree (brand typeface) ── */
+@import url('https://fonts.googleapis.com/css2?family=Figtree:wght@300;400;500;600;700;800&display=swap');
+
+/* ── Base app ── */
 .stApp {
-    background-color: #0f1a13;
-    color: #f0f0f0;
-    font-family: 'Inter', system-ui, sans-serif;
+    background-color: #f5f5f5;
+    color: #40424a;
+    font-family: 'Figtree', system-ui, sans-serif;
 }
+
+/* ── Streamlit top bar ── */
 [data-testid="stHeader"] {
-    background: #1a2d21;
+    background: #40424a;
 }
+
+/* ── Main content padding ── */
 .block-container {
-    padding-top: 1rem;
+    padding-top: 0 !important;
     padding-bottom: 2rem;
-    max-width: 95%;
+    max-width: 97%;
 }
+
+/* ── Sidebar ── */
 div[data-testid="stSidebar"] {
-    background-color: #1a2d21;
+    background-color: #40424a;
+    border-right: 3px solid #0d823b;
 }
+div[data-testid="stSidebar"] * {
+    color: #ffffff !important;
+    font-family: 'Figtree', system-ui, sans-serif;
+}
+div[data-testid="stSidebar"] .stSelectbox label,
+div[data-testid="stSidebar"] .stMultiSelect label,
+div[data-testid="stSidebar"] .stTextInput label,
+div[data-testid="stSidebar"] .stSlider label,
+div[data-testid="stSidebar"] .stDateInput label,
+div[data-testid="stSidebar"] .stCheckbox label {
+    color: #dadada !important;
+    font-size: 0.82rem;
+    font-weight: 500;
+}
+div[data-testid="stSidebar"] h1,
+div[data-testid="stSidebar"] h2,
+div[data-testid="stSidebar"] h3 {
+    color: #ffffff !important;
+    border-bottom: 1px solid #0d823b;
+    padding-bottom: 4px;
+}
+
+/* ── Headings ── */
 h1, h2, h3, h4 {
-    color: #e9ffe1;
-    font-weight: 600;
+    color: #40424a;
+    font-family: 'Figtree', system-ui, sans-serif;
+    font-weight: 700;
 }
+
+/* ── Brand header bar ── */
+.kensite-header {
+    background: #40424a;
+    padding: 14px 28px;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    margin-bottom: 20px;
+    border-bottom: 4px solid #0d823b;
+}
+.kensite-header img {
+    height: 40px;
+    width: auto;
+}
+.kensite-header .header-title {
+    color: #ffffff;
+    font-size: 1.3rem;
+    font-weight: 700;
+    font-family: 'Figtree', system-ui, sans-serif;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+}
+.kensite-header .header-sub {
+    color: #0d823b;
+    font-size: 0.75rem;
+    font-weight: 500;
+    font-family: 'Figtree', system-ui, sans-serif;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+}
+
+/* ── KPI cards ── */
+.kpi-card {
+    background: #ffffff;
+    border-radius: 6px;
+    padding: 1rem 1.25rem;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    border-left: 4px solid #0d823b;
+    border-top: 1px solid #dadada;
+    border-right: 1px solid #dadada;
+    border-bottom: 1px solid #dadada;
+}
+.kpi-card .kpi-value {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #40424a;
+    font-family: 'Figtree', system-ui, sans-serif;
+}
+.kpi-card .kpi-label {
+    font-size: 0.78rem;
+    color: #888;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    font-family: 'Figtree', system-ui, sans-serif;
+}
+
+/* ── Small labels ── */
 .small-label {
     font-size: 0.8rem;
-    color: #9fa9a2;
+    color: #888;
 }
-.kpi-card {
-    background: #1f3326;
-    border-radius: 0.75rem;
-    padding: 1rem 1.25rem;
-    box-shadow: 0 16px 32px rgba(0,0,0,0.6);
-    border: 1px solid #2c4a37;
+
+/* ── Tab styling ── */
+.stTabs [data-baseweb="tab-list"] {
+    background: #ffffff;
+    border-bottom: 2px solid #0d823b;
+    gap: 0;
 }
-.highlight-red {
-    background-color: rgba(255,0,0,0.15);
+.stTabs [data-baseweb="tab"] {
+    color: #40424a;
+    font-family: 'Figtree', system-ui, sans-serif;
+    font-weight: 600;
+    font-size: 0.85rem;
+    padding: 10px 18px;
+    border-radius: 0;
+    background: transparent;
 }
-.highlight-amber {
-    background-color: rgba(255,191,0,0.18);
+.stTabs [aria-selected="true"] {
+    background: #0d823b !important;
+    color: #ffffff !important;
+    border-radius: 0 !important;
 }
-.highlight-purple {
-    background-color: rgba(128,0,128,0.25);
-}
-.highlight-grey {
-    background-color: rgba(128,128,128,0.25);
-}
-.highlight-dupe {
-    background-color: rgba(255,100,0,0.22);
+
+/* ── Hire lines table ── */
+.highlight-red  { background-color: rgba(210, 40,  40,  0.12); }
+.highlight-amber{ background-color: rgba(210, 140, 0,   0.15); }
+.highlight-purple{ background-color: rgba(110, 40,  160, 0.12); }
+.highlight-grey { background-color: rgba(130, 130, 130, 0.10); }
+.highlight-dupe { background-color: rgba(220, 90,  0,   0.15); }
+
+.styled-table {
+    font-family: 'Figtree', system-ui, sans-serif;
+    font-size: 0.8rem;
 }
 .styled-table thead th {
     position: sticky;
     top: 0;
-    background-color: #2c4a37 !important;
+    background-color: #40424a !important;
+    color: #ffffff !important;
     z-index: 10;
+    padding: 8px 10px;
+    font-weight: 600;
+    text-transform: uppercase;
+    font-size: 0.72rem;
+    letter-spacing: 0.04em;
+}
+.styled-table tbody td {
+    padding: 6px 10px;
+    color: #40424a;
+    border-bottom: 1px solid #e8e8e8;
+}
+
+/* ── Section dividers ── */
+.section-header {
+    border-left: 4px solid #0d823b;
+    padding-left: 10px;
+    margin: 18px 0 10px 0;
+    color: #40424a;
+    font-weight: 700;
+    font-family: 'Figtree', system-ui, sans-serif;
+}
+
+/* ── Upload boxes ── */
+.upload-zone {
+    background: #ffffff;
+    border: 2px dashed #0d823b;
+    border-radius: 6px;
+    padding: 12px 16px;
+    margin-bottom: 10px;
+}
+.upload-zone label {
+    font-weight: 600;
+    color: #40424a;
+    font-family: 'Figtree', system-ui, sans-serif;
+}
+
+/* ── Buttons ── */
+.stDownloadButton > button {
+    background-color: #0d823b !important;
+    color: #ffffff !important;
+    border: none !important;
+    font-family: 'Figtree', system-ui, sans-serif !important;
+    font-weight: 600 !important;
+    border-radius: 4px !important;
+}
+.stDownloadButton > button:hover {
+    background-color: #0a6830 !important;
+}
+
+/* ── Dataframes ── */
+.stDataFrame {
+    border: 1px solid #dadada !important;
+    border-radius: 6px;
+}
+
+/* ── Alerts / info boxes ── */
+.stAlert {
+    border-radius: 6px;
+    font-family: 'Figtree', system-ui, sans-serif;
 }
 </style>
+""", unsafe_allow_html=True)
+
+# ── Brand header ──
+if _LOGO_B64:
+    logo_html = f'<img src="data:image/png;base64,{_LOGO_B64}" alt="Kensite Logo">'
+else:
+    logo_html = '<span style="color:#0d823b;font-size:1.6rem;font-weight:800;">K</span>'
+
+st.markdown(f"""
+<div class="kensite-header">
+    {logo_html}
+    <div>
+        <div class="header-title">Hire Dashboard</div>
+        <div class="header-sub">Complete Site Solutions</div>
+    </div>
+</div>
 """, unsafe_allow_html=True)
 
 
@@ -538,8 +731,8 @@ def df_with_highlight_classes(df, dupe_units=None):
     tbody_html = "<tbody>" + "\n".join(body_rows) + "</tbody>"
 
     full_html = f"""
-    <div style="max-height:70vh; overflow:auto;">
-    <table class="styled-table" style="width:100%; border-collapse:collapse; font-size:0.8rem; color:#f0f0f0;">
+    <div style="max-height:70vh; overflow:auto; border:1px solid #dadada; border-radius:6px;">
+    <table class="styled-table" style="width:100%; border-collapse:collapse; font-size:0.8rem; color:#40424a; background:#fff;">
     {thead_html}
     {tbody_html}
     </table>
@@ -782,8 +975,6 @@ def filter_df(df):
 # ============================================================
 # APP BODY
 # ============================================================
-st.markdown("## Kensite Hire Dashboard")
-
 st.markdown("#### Step 1: Upload current hire export (what's on hire / billing)")
 hire_upload = st.file_uploader(
     "Equipment On Hire Excel (.xlsx)",
@@ -845,26 +1036,26 @@ with tab_dashboard:
     col1, col2, col3, col4 = st.columns(4)
     with col1:
         st.markdown(
-            f"<div class='kpi-card'><div class='small-label'>Weekly Hire (filtered)</div>"
-            f"<div style='font-size:1.4rem; font-weight:600; color:#fff;'>{money(total_weekly)}</div></div>",
+            f"<div class='kpi-card'><div class='kpi-label'>Weekly Hire (filtered)</div>"
+            f"<div class='kpi-value'>{money(total_weekly)}</div></div>",
             unsafe_allow_html=True
         )
     with col2:
         st.markdown(
-            f"<div class='kpi-card'><div class='small-label'>Active Lines</div>"
-            f"<div style='font-size:1.4rem; font-weight:600; color:#fff;'>{total_lines}</div></div>",
+            f"<div class='kpi-card'><div class='kpi-label'>Active Lines</div>"
+            f"<div class='kpi-value'>{total_lines}</div></div>",
             unsafe_allow_html=True
         )
     with col3:
         st.markdown(
-            f"<div class='kpi-card'><div class='small-label'>Customers</div>"
-            f"<div style='font-size:1.4rem; font-weight:600; color:#fff;'>{unique_customers}</div></div>",
+            f"<div class='kpi-card'><div class='kpi-label'>Customers</div>"
+            f"<div class='kpi-value'>{unique_customers}</div></div>",
             unsafe_allow_html=True
         )
     with col4:
         st.markdown(
-            f"<div class='kpi-card'><div class='small-label'>Sites</div>"
-            f"<div style='font-size:1.4rem; font-weight:600; color:#fff;'>{unique_sites}</div></div>",
+            f"<div class='kpi-card'><div class='kpi-label'>Sites</div>"
+            f"<div class='kpi-value'>{unique_sites}</div></div>",
             unsafe_allow_html=True
         )
 
@@ -895,12 +1086,12 @@ with tab_dashboard:
         ))
         rev_fig.update_layout(
             height=260,
-            paper_bgcolor="#1f3326",
-            plot_bgcolor="#1f3326",
-            font=dict(color="#c0d4c5"),
-            xaxis=dict(gridcolor="#2c4a37", title="Date"),
-            yaxis=dict(gridcolor="#2c4a37", title="Total Weekly £",
-                       tickprefix="£", tickformat=",.0f"),
+            paper_bgcolor="#ffffff",
+            plot_bgcolor="#f9fafb",
+            font=dict(color="#40424a", family="Figtree, system-ui, sans-serif"),
+            xaxis=dict(gridcolor="#e8e8e8", title="Date", linecolor="#dadada"),
+            yaxis=dict(gridcolor="#e8e8e8", title="Total Weekly £",
+                       tickprefix="£", tickformat=",.0f", linecolor="#dadada"),
             margin=dict(l=10, r=10, t=10, b=10),
         )
         st.plotly_chart(rev_fig, use_container_width=True)
@@ -1062,8 +1253,8 @@ with tab_util:
                 # ── IMPROVEMENT 1: Line chart for utilisation trend ──
                 util_fig = go.Figure()
                 colours = [
-                    "#0d823b","#4fc97e","#a8e6c3","#f0c040","#e07020",
-                    "#60b0f0","#c060e0","#e06080","#80e0d0","#f08080",
+                    "#0d823b","#40424a","#4fc97e","#a0c4ff","#e07020",
+                    "#c060e0","#e06080","#f0c040","#60b0f0","#80e0d0",
                 ]
                 for i, code in enumerate(pick_codes):
                     sub_plot = hist_sub[hist_sub["Subgroup"] == code].sort_values("snapshot_date")
@@ -1078,14 +1269,14 @@ with tab_util:
                     ))
                 util_fig.update_layout(
                     height=320,
-                    paper_bgcolor="#1f3326",
-                    plot_bgcolor="#1f3326",
-                    font=dict(color="#c0d4c5"),
-                    xaxis=dict(gridcolor="#2c4a37", title="Date"),
-                    yaxis=dict(gridcolor="#2c4a37", title="Utilisation %",
-                               range=[0, 100], ticksuffix="%"),
-                    legend=dict(bgcolor="#1f3326", bordercolor="#2c4a37",
-                                font=dict(color="#c0d4c5")),
+                    paper_bgcolor="#ffffff",
+                    plot_bgcolor="#f9fafb",
+                    font=dict(color="#40424a", family="Figtree, system-ui, sans-serif"),
+                    xaxis=dict(gridcolor="#e8e8e8", title="Date", linecolor="#dadada"),
+                    yaxis=dict(gridcolor="#e8e8e8", title="Utilisation %",
+                               range=[0, 100], ticksuffix="%", linecolor="#dadada"),
+                    legend=dict(bgcolor="#ffffff", bordercolor="#dadada",
+                                font=dict(color="#40424a")),
                     margin=dict(l=10, r=10, t=10, b=10),
                 )
                 st.plotly_chart(util_fig, use_container_width=True)
